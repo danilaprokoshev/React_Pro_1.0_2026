@@ -1,12 +1,7 @@
-import HomePage from 'pages/HomePage';
-import './App.css';
+import { TaskPage } from 'pages/tasks';
 
 function App() {
-  return (
-    <>
-      <HomePage />
-    </>
-  );
+  return <TaskPage />;
 }
 
 export default App;
