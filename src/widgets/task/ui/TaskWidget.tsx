@@ -1,11 +1,11 @@
 import { TaskList, useTasks } from 'features/taskList';
 
 export function TaskWidget() {
-  const { tasks, filter, setFilter, removeTask } = useTasks();
+  const { visibleTasks, filter, setFilter, removeTask } = useTasks();
 
   return (
     <TaskList
-      tasks={tasks}
+      tasks={visibleTasks}
       filter={filter}
       setFilter={setFilter}
       removeTask={removeTask}

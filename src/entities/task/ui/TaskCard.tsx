@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Task } from 'entities/task';
 import { Button } from 'shared';
 
@@ -8,7 +9,7 @@ type Props = {
   removeTask: (id: string) => void;
 };
 
-export function TaskCard({ task, removeTask }: Props) {
+export const TaskCard = React.memo(function ({ task, removeTask }: Props) {
   const { id, title, completed } = task;
 
   return (
@@ -20,4 +21,4 @@ export function TaskCard({ task, removeTask }: Props) {
       <Button onClick={() => removeTask(id)}>Удалить</Button>
     </div>
   );
-}
+});
