@@ -1,14 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { Task } from 'entities/task';
-
-const initial: Task[] = [
-  { id: '1', title: 'Изучить архитектуру', completed: true },
-  { id: '2', title: 'Изучить мемоизацию', completed: false },
-  { id: '3', title: 'Изучить еще что-нибудь', completed: false },
-  { id: '4', title: 'Сдать домашу вовремя', completed: false },
-  { id: '5', title: 'Защитить проект', completed: false },
-];
+import { useGetTasksQuery, type Task } from 'entities/task';
 
 export enum Filter {
   All = 'all',
@@ -16,26 +8,29 @@ export enum Filter {
   Incomplete = 'incomplete',
 }
 
+const getFilteredTasks = (tasks: Task[], filterValue: Filter) => {
+  switch (filterValue) {
+    case Filter.Completed:
+      return tasks.filter(task => task.completed);
+    case Filter.Incomplete:
+      return tasks.filter(task => !task.completed);
+    case Filter.All:
+    default:
+      return tasks;
+  }
+};
+
 export function useTasks() {
-  const [tasks, setTasks] = useState(initial);
-  const [visibleTasks, setVisibleTasks] = useState(initial);
+  const { data: initial = [] } = useGetTasksQuery();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [visibleTasks, setVisibleTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<Filter>(Filter.All);
 
   const onChangeFilter = useMemo(
     () => (filterValue: Filter) => {
       setFilter(filterValue);
 
-      switch (filterValue) {
-        case Filter.Completed:
-          setVisibleTasks(tasks.filter(task => task.completed));
-          break;
-        case Filter.Incomplete:
-          setVisibleTasks(tasks.filter(task => !task.completed));
-          break;
-        case Filter.All:
-        default:
-          setVisibleTasks(() => tasks);
-      }
+      setVisibleTasks(getFilteredTasks(tasks, filterValue));
     },
     [tasks]
   );
@@ -45,24 +40,21 @@ export function useTasks() {
       setTasks(prev => {
         const newTasks = prev.filter(task => task.id !== id);
 
-        switch (filter) {
-          case Filter.Completed:
-            setVisibleTasks(newTasks.filter(task => task.completed));
-            break;
-          case Filter.Incomplete:
-            setVisibleTasks(newTasks.filter(task => !task.completed));
-            break;
-          case Filter.All:
-          default:
-            setVisibleTasks(newTasks);
-            break;
-        }
+        setVisibleTasks(getFilteredTasks(newTasks, filter));
 
         return newTasks;
       });
     },
     [filter]
   );
+
+  useEffect(() => {
+    if (initial.length > 0 && tasks.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTasks(initial);
+      setVisibleTasks(getFilteredTasks(initial, filter));
+    }
+  }, [filter, initial, tasks.length]);
 
   return {
     visibleTasks,
