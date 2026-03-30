@@ -15,14 +15,12 @@ import {
   type FormValues,
   validationSchema,
 } from '../model';
-// import { AutoSave } from './AutoSave';
 import { UserName } from './UserName';
-// import { LostDataModal } from './LostDataModal';
 import { FORM_LS_KEY } from '../config';
 import { Email } from './Email';
 import { Password } from './Password';
 import { ConfirmPassword } from './ConfirmPassword';
-// import { Skills } from './Skills';
+import { SocialLinks } from './SocialLinks';
 
 export const RHFForm: FC = () => {
   const navigate = useNavigate();
@@ -84,6 +82,7 @@ export const RHFForm: FC = () => {
 
           <Divider variant="middle" sx={{ mb: 4 }} />
 
+          <SocialLinks />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               loading={formState.isSubmitting}

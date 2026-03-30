@@ -5,4 +5,5 @@ export const createInitialsValues = (values?: FormValues): FormValues => ({
   email: values?.email ?? '',
   password: values?.password ?? '',
   confirmPassword: values?.confirmPassword ?? '',
+  socialLinks: values?.socialLinks ?? [{ value: '' }],
 });
