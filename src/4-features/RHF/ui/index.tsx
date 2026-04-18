@@ -21,6 +21,8 @@ import { Email } from './Email';
 import { Password } from './Password';
 import { ConfirmPassword } from './ConfirmPassword';
 import { SocialLinks } from './SocialLinks';
+import { PreviousInput } from '4-features/previousInput';
+import { FocusTracker } from '4-features/focusTracker';
 
 export const RHFForm: FC = () => {
   const navigate = useNavigate();
@@ -75,6 +77,8 @@ export const RHFForm: FC = () => {
           RHF form
         </Typography>
         <Container maxWidth="sm" sx={{ width: '100%' }}>
+          <FocusTracker />
+          <PreviousInput />
           <UserName />
           <Email />
           <Password />

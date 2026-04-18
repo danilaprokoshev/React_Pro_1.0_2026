@@ -3,6 +3,7 @@ import { Filter } from '4-features/taskList';
 import { Button } from '6-shared';
 
 import styles from './TaskList.module.css';
+import { ClickTimer } from '4-features/clickTimer';
 
 type Props = {
   tasks: Task[];
@@ -33,6 +34,7 @@ export function TaskList({ tasks, filter, setFilter, removeTask }: Props) {
         >
           Не выполненные
         </Button>
+        <ClickTimer />
       </div>
       {tasks.map(task => (
         <TaskCard key={task.id} task={task} removeTask={removeTask} />
