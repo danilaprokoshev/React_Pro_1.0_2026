@@ -3,7 +3,7 @@ import { Filter } from '4-features/taskList';
 import { Button } from '6-shared';
 
 import styles from './TaskList.module.css';
-import { ClickTimer } from '4-features/clickTimer';
+import { ClickTimer } from '4-features/refExamples/ClickTimer';
 
 type Props = {
   tasks: Task[];
